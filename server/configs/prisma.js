@@ -3,8 +3,10 @@ import { PrismaClient } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import { neonConfig, Pool } from '@neondatabase/serverless';
 
+import ws from 'ws';
 // To work in edge environments (Cloudflare Workers, Vercel Edge, etc.), enable querying over fetch
-neonConfig.poolQueryViaFetch = true;
+// neonConfig.poolQueryViaFetch = true;
+neonConfig.webSocketConstructor = ws;
 
 // Type definitions
 // declare global {
