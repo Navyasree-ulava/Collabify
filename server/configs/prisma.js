@@ -2,29 +2,36 @@ import 'dotenv/config';
 import { PrismaClient } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
 import { neonConfig, Pool } from '@neondatabase/serverless';
-
 import ws from 'ws';
-// To work in edge environments (Cloudflare Workers, Vercel Edge, etc.), enable querying over fetch
-// neonConfig.poolQueryViaFetch = true;
+
+// Mandatory for Node.js serverless functions using WebSockets
 neonConfig.webSocketConstructor = ws;
 
-// Type definitions
-// declare global {
-//   var prisma: PrismaClient | undefined
-// }
-
+/**
+ * Robust database client initialization for Vercel Serverless
+ */
 const connectionString = process.env.DATABASE_URL;
 
-if (!connectionString) {
-    throw new Error('DATABASE_URL environment variable is not set');
-}
+const prismaClientSingleton = () => {
+    if (!connectionString) {
+        throw new Error('DATABASE_URL is not defined in the environment variables. Please check your Vercel Dashboard.');
+    }
 
-const pool = new Pool({ connectionString });
-const adapter = new PrismaNeon(pool);
-const prisma = global.prisma || new PrismaClient({ adapter });
+    // Explicitly pass the connection string to the Pool
+    const pool = new Pool({ connectionString: connectionString });
+    const adapter = new PrismaNeon(pool);
+    
+    return new PrismaClient({ 
+        adapter,
+        log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error']
+    });
+};
 
-if (process.env.NODE_ENV !== 'production') {
-    global.prisma = prisma;
-}
+// Use globalThis to prevent multiple instances during hot-reloading in dev
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
 
 export default prisma;
+
+if (process.env.NODE_ENV !== 'production') {
+    globalThis.prismaGlobal = prisma;
+}
