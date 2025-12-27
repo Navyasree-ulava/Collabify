@@ -1,37 +1,32 @@
-import 'dotenv/config';
-import { PrismaClient } from '@prisma/client';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import { neonConfig, Pool } from '@neondatabase/serverless';
-import ws from 'ws';
+import { PrismaClient } from "@prisma/client";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import { neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
 
-// Mandatory for Node.js serverless functions using WebSockets
+// Required for Neon on Vercel Node.js serverless
 neonConfig.webSocketConstructor = ws;
 
-/**
- * Robust database client initialization for Vercel Serverless
- */
-const connectionString = process.env.DATABASE_URL;
+function createPrismaClient() {
+  const url = process.env.DATABASE_URL;
 
-const prismaClientSingleton = () => {
-    if (!connectionString) {
-        throw new Error('DATABASE_URL is not defined in the environment variables. Please check your Vercel Dashboard.');
-    }
+  if (!url) {
+    throw new Error("DATABASE_URL is not set");
+  }
 
-    // Explicitly pass the connection string to the Pool
-    const pool = new Pool({ connectionString: connectionString });
-    const adapter = new PrismaNeon(pool);
-    
-    return new PrismaClient({ 
-        adapter,
-        log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error']
-    });
-};
+  return new PrismaClient({
+    adapter: new PrismaNeon({
+      connectionString: url, // ✅ MUST be passed directly
+    }),
+  });
+}
 
-// Use globalThis to prevent multiple instances during hot-reloading in dev
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+// Global singleton (prevents multiple clients)
+const globalForPrisma = globalThis;
+
+const prisma = globalForPrisma.prisma ?? createPrismaClient();
+
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}
 
 export default prisma;
-
-if (process.env.NODE_ENV !== 'production') {
-    globalThis.prismaGlobal = prisma;
-}
