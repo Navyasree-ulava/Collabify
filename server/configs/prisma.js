@@ -11,11 +11,18 @@ neonConfig.poolQueryViaFetch = true;
 //   var prisma: PrismaClient | undefined
 // }
 
-const connectionString = `${process.env.DATABASE_URL}`;
+const connectionString = process.env.DATABASE_URL;
 
-const adapter = new PrismaNeon({ connectionString });
+if (!connectionString) {
+    throw new Error('DATABASE_URL environment variable is not set');
+}
+
+const pool = new Pool({ connectionString });
+const adapter = new PrismaNeon(pool);
 const prisma = global.prisma || new PrismaClient({ adapter });
 
-if (process.env.NODE_ENV === 'development') global.prisma = prisma;
+if (process.env.NODE_ENV !== 'production') {
+    global.prisma = prisma;
+}
 
 export default prisma;
