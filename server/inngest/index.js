@@ -162,6 +162,7 @@ const sendTaskAssignmentEmail = inngest.createFunction(
       include: {assignee: true,project: true}
     })
     
+    console.log(`Sending task assignment email to ${task.assignee.email}`);
     await sendEmail({
       to: task.assignee.email,
       subject: `New Task Assignment in ${task.project.name}`,
@@ -263,20 +264,23 @@ const sendTaskAssignmentEmail = inngest.createFunction(
        
       await step.sleepUntil('wait-for-the-due-date', new Date(task.due_date));
 
-      await step.run('check-if-task-is-completed', async () => {
-        const task = await prisma.task.findUnique({
+      task = await step.run('check-if-task-is-completed', async () => {
+        const updatedTask = await prisma.task.findUnique({
             where: {id: taskId},
             include: {assignee: true,project: true}
           })
+        return updatedTask;
        })
 
        if(!task){
+        console.log(`Task with ID ${taskId} not found during reminder check. Aborting reminder.`);
         return;
        }
 
        if(task.status !== "DONE"){
           await step.run('send-task-remainder-mail', async () => {
-            await SendmailTransport({
+            console.log(`Sending reminder email to ${task.assignee.email}`);
+            await sendEmail({
               to: task.assignee.email,
               subject: `Reminder for ${task.project.name}`,
               body: `

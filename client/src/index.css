@@ -65,4 +65,34 @@
     input[type="checkbox"]:checked {
         background-color: #3b82f6;
     }
+
+    /* Global Dark Mode Dropdown Fixes */
+    .dark select {
+        background-color: #18181b; /* zinc-900 */
+        color: #f4f4f5; /* zinc-100 */
+        border-color: #27272a; /* zinc-800 */
+    }
+
+    .dark option {
+        background-color: #18181b;
+        color: #f4f4f5;
+    }
+
+    /* Sidebar Aesthetics */
+    .sidebar-gradient {
+        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+    }
+
+    .dark .sidebar-gradient {
+        background: #18181b; /* zinc-900 - The "blakish grey" the user liked */
+    }
+
+    .nav-item-active {
+        background: linear-gradient(90deg, #3b82f61a 0%, #3b82f60d 100%);
+        border-right: 3px solid #3b82f6;
+    }
+
+    .dark .nav-item-active {
+        background: linear-gradient(90deg, #3b82f633 0%, #3b82f61a 100%);
+    }
 }
