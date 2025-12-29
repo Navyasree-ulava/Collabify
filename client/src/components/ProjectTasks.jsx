@@ -1,6 +1,6 @@
 import { format } from "date-fns";
 import toast from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { deleteTask, updateTask } from "../features/workspaceSlice";
@@ -28,6 +28,7 @@ const ProjectTasks = ({ tasks }) => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const { searchTerm } = useSelector((state) => state.search);
     const [selectedTasks, setSelectedTasks] = useState([]);
 
     const [filters, setFilters] = useState({
@@ -45,14 +46,16 @@ const ProjectTasks = ({ tasks }) => {
     const filteredTasks = useMemo(() => {
         return tasks.filter((task) => {
             const { status, type, priority, assignee } = filters;
+            const matchesSearch = !searchTerm || task.title.toLowerCase().includes(searchTerm.toLowerCase());
             return (
+                matchesSearch &&
                 (!status || task.status === status) &&
                 (!type || task.type === type) &&
                 (!priority || task.priority === priority) &&
                 (!assignee || task.assignee?.name === assignee)
             );
         });
-    }, [filters, tasks]);
+    }, [filters, tasks, searchTerm]);
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;

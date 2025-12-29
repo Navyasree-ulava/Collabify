@@ -21,12 +21,20 @@ const ProjectOverview = () => {
     };
 
     const currentWorkspace = useSelector((state) => state?.workspace?.currentWorkspace || null);
+    const { searchTerm } = useSelector((state) => state.search);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [projects, setProjects] = useState([]);
 
     useEffect(() => {
-        setProjects(currentWorkspace?.projects || []);
-    }, [currentWorkspace]);
+        let projs = currentWorkspace?.projects || [];
+        if (searchTerm) {
+            projs = projs.filter(p => 
+                p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                p.description?.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+        }
+        setProjects(projs);
+    }, [currentWorkspace, searchTerm]);
 
     return currentWorkspace && (
         <div className="bg-white dark:bg-zinc-950 dark:bg-gradient-to-br dark:from-zinc-800/70 dark:to-zinc-900/50 border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 transition-all duration-200 rounded-lg overflow-hidden">

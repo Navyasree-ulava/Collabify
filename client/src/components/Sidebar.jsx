@@ -29,7 +29,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
     }, [setIsSidebarOpen]);
 
     return (
-        <div ref={sidebarRef} className={`z-10 sidebar-gradient min-w-68 flex flex-col h-screen border-r border-gray-200 dark:border-zinc-800 max-sm:absolute transition-all ${isSidebarOpen ? 'left-0' : '-left-full'} `} >
+        <div ref={sidebarRef} className={`z-10 sidebar-gradient backdrop-blur-md min-w-68 flex flex-col h-screen border-r border-gray-200 dark:border-zinc-800 max-sm:absolute transition-all ${isSidebarOpen ? 'left-0' : '-left-full'} opacity-95 dark:opacity-100`} >
             <WorkspaceDropdown />
             <hr className='border-gray-200 dark:border-zinc-800' />
             <div className='flex-1 overflow-y-scroll no-scrollbar flex flex-col'>

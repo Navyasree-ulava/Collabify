@@ -9,6 +9,7 @@ function MyTasksSidebar() {
     const { user } = useUser();
 
     const { currentWorkspace } = useSelector((state) => state.workspace);
+    const { searchTerm } = useSelector((state) => state.search);
     const [showMyTasks, setShowMyTasks] = useState(false);
     const [myTasks, setMyTasks] = useState([]);
 
@@ -30,16 +31,20 @@ function MyTasksSidebar() {
     const fetchUserTasks = () => {
         const userId = user?.id || '';
         if (!userId || !currentWorkspace) return;
-        const currentWorkspaceTasks = currentWorkspace.projects.flatMap((project) => {
+        let currentWorkspaceTasks = currentWorkspace.projects.flatMap((project) => {
             return project.tasks.filter((task) => task?.assignee?.id === userId);
         });
+
+        if (searchTerm) {
+            currentWorkspaceTasks = currentWorkspaceTasks.filter(t => t.title.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
 
         setMyTasks(currentWorkspaceTasks);
     }
 
     useEffect(() => {
         fetchUserTasks()
-    }, [currentWorkspace])
+    }, [currentWorkspace, searchTerm])
 
     return (
         <div className="mt-6 px-3">

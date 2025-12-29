@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap');
 @import "tailwindcss";
 
 * {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -78,13 +78,23 @@
         color: #f4f4f5;
     }
 
+    /* App-wide Gradient Theme */
+    .app-gradient {
+        background: radial-gradient(circle at top left, #ffffff 0%, #f8fafc 100%);
+    }
+
+    .dark .app-gradient {
+        background: radial-gradient(circle at top left, #09090b 0%, #111116 100%);
+        background-attachment: fixed;
+    }
+
     /* Sidebar Aesthetics */
     .sidebar-gradient {
-        background: linear-gradient(180deg, #f3f4f6 0%, #ffffff 100%);
+        background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
     }
 
     .dark .sidebar-gradient {
-        background: #18181b; /* zinc-900 - The "blakish grey" the user liked */
+        background: #0c0c0e; /* Deep charcoal for a cleaner look */
     }
 
     .nav-item-active {
@@ -93,6 +103,6 @@
     }
 
     .dark .nav-item-active {
-        background: linear-gradient(90deg, #3b82f633 0%, #3b82f61a 100%);
+        background: linear-gradient(90deg, #3b82f626 0%, transparent 100%);
     }
 }

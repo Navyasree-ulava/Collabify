@@ -162,6 +162,11 @@ const sendTaskAssignmentEmail = inngest.createFunction(
       include: {assignee: true,project: true}
     })
     
+    if(!task || !task.assignee){
+      console.log(`Task with ID ${taskId} or assignee not found. Aborting assignment email.`);
+      return;
+    }
+
     console.log(`Sending task assignment email to ${task.assignee.email}`);
     await sendEmail({
       to: task.assignee.email,

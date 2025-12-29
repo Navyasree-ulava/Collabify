@@ -84,7 +84,7 @@ export const addMemberToWorkspace = async(req, res) => {
             }
         })
 
-        res.json({member}, {message: "Member added to workspace successfully"});
+        res.json({member, message: "Member added to workspace successfully"});
 
     } catch (error) {
         console.log(error);
