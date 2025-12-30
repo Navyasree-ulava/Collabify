@@ -33,7 +33,7 @@ const Layout = () => {
         </div>
     )
 
-    if(!user && isLoaded){
+    if (!user && isLoaded) {
         return <Navigate to="/landing" replace />
     }
 

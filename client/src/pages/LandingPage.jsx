@@ -51,65 +51,59 @@ const LandingPage = () => {
                  style={{ backgroundImage: `radial-gradient(circle at 2px 2px, ${isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)'} 1px, transparent 0)`, backgroundSize: '40px 40px' }} />
 
             {/* Navbar */}
-            <nav className={`relative z-50 flex justify-between items-center px-6 py-8 max-w-7xl mx-auto backdrop-blur-sm sticky top-0 border-b ${isDark ? 'border-white/5' : 'border-black/5'}`}>
-                <div className="flex items-center gap-3 group cursor-pointer">
-                    <div className="size-10 bg-gradient-to-br from-fuchsia-600 to-purple-700 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:rotate-6 transition-transform">
-                        <Layout className="text-white size-6" />
+            <nav className={`relative z-50 flex justify-between items-center px-4 md:px-6 py-6 md:py-8 max-w-7xl mx-auto backdrop-blur-sm sticky top-0 border-b ${isDark ? 'border-white/5' : 'border-black/5'}`}>
+                <div className="flex items-center gap-2 md:gap-3 group cursor-pointer">
+                    <div className="size-8 md:size-10 bg-gradient-to-br from-fuchsia-600 to-purple-700 rounded-lg md:rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:rotate-6 transition-transform">
+                        <Layout className="text-white size-5 md:size-6" />
                     </div>
-                    <span className="text-2xl font-black tracking-tighter uppercase italic">
+                    <span className="text-xl md:text-2xl font-black tracking-tighter uppercase italic">
                         Collabify
                     </span>
                 </div>
                 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-3 md:gap-6">
                     {/* Theme Toggle */}
                     <button 
                         onClick={() => dispatch(toggleTheme())} 
-                        className={`size-10 flex items-center justify-center rounded-xl transition-all hover:scale-110 active:scale-95 ${isDark ? 'bg-white/5 text-yellow-400 hover:bg-white/10' : 'bg-black/5 text-gray-600 hover:bg-black/10'}`}
+                        className={`size-8 md:size-10 flex items-center justify-center rounded-lg md:rounded-xl transition-all hover:scale-110 active:scale-95 ${isDark ? 'bg-white/5 text-yellow-400 hover:bg-white/10' : 'bg-black/5 text-gray-600 hover:bg-black/10'}`}
                     >
-                        {isDark ? <Sun className="size-5" /> : <Moon className="size-5" />}
+                        {isDark ? <Sun className="size-4 md:size-5" /> : <Moon className="size-4 md:size-5" />}
                     </button>
-
+                    
                     <SignUpButton mode="modal" appearance={{ baseTheme: isDark ? dark : undefined, variables: { colorBackground: isDark ? 'rgba(0,0,0,0.8)' : '#ffffff', backdropFilter: 'blur(16px)' } }}>
-                        <button className={`text-sm font-semibold transition-opacity ${isDark ? 'opacity-70 hover:opacity-100' : 'text-gray-600 hover:text-black'}`}>Log In</button>
-                    </SignUpButton>
-                    <SignUpButton mode="modal" appearance={{ baseTheme: isDark ? dark : undefined, variables: { colorBackground: isDark ? 'rgba(0,0,0,0.8)' : '#ffffff', backdropFilter: 'blur(16px)' } }}>
-                        <button className={`${isDark ? 'bg-white text-black shadow-white/10' : 'bg-black text-white shadow-black/10'} px-6 py-2.5 rounded-full text-sm font-bold hover:scale-105 active:scale-95 transition-all shadow-xl`}>
-                            Join Free
+                        <button className={`${isDark ? 'bg-white text-black shadow-white/10' : 'bg-black text-white shadow-black/10'} px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-bold hover:scale-105 active:scale-95 transition-all shadow-xl`}>
+                            Sign Up
                         </button>
                     </SignUpButton>
                 </div>
             </nav>
 
             {/* Main Content */}
-            <main className="relative z-10 flex flex-col items-center justify-center pt-24 px-6 text-center">
-                <div className="animate-in fade-in slide-in-from-bottom-5 duration-1000">
-                    <h1 className="text-5xl md:text-8xl font-black mb-8 tracking-tighter leading-[0.9] lg:max-w-4xl mx-auto">
+            <main className="relative z-10 flex flex-col items-center justify-center pt-16 md:pt-24 px-6 text-center">
+                <div className="animate-in fade-in slide-in-from-bottom-5 duration-1000 w-full">
+                    <h1 className="text-4xl sm:text-6xl md:text-8xl font-black mb-6 md:mb-8 tracking-tighter leading-[0.9] lg:max-w-4xl mx-auto">
                         The Next Era of <br />
                         <span className={`bg-clip-text text-transparent bg-gradient-to-r ${isDark ? 'from-fuchsia-400 via-purple-400 to-indigo-400 drop-shadow-2xl' : 'from-fuchsia-600 via-purple-600 to-indigo-600'}`}>
                             Collaboration.
                         </span>
                     </h1>
 
-                    <p className={`text-lg md:text-2xl max-w-2xl mx-auto mb-12 leading-relaxed font-normal ${isDark ? 'text-gray-400 opacity-80' : 'text-gray-600'}`}>
+                    <p className={`text-base sm:text-lg md:text-2xl max-w-2xl mx-auto mb-8 md:mb-12 leading-relaxed font-normal ${isDark ? 'text-gray-400 opacity-80' : 'text-gray-600'}`}>
                         Experience the ultimate project management tool. Beautifully designed, 
                         blazing fast, and built for the modern workforce.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-32">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-20 md:mb-32">
                         <SignUpButton mode="modal" appearance={{ baseTheme: isDark ? dark : undefined, variables: { colorBackground: isDark ? 'rgba(0,0,0,0.8)' : '#ffffff', backdropFilter: 'blur(16px)' } }}>
-                            <button className={`group relative px-10 py-5 ${isDark ? 'bg-white text-black hover:shadow-white/20' : 'bg-black text-white hover:shadow-black/20'} rounded-full font-black text-xl hover:shadow-[0_0_30px] transition-all flex items-center gap-2`}>
+                            <button className={`group relative w-full sm:w-auto px-8 md:px-10 py-4 md:py-5 ${isDark ? 'bg-white text-black hover:shadow-white/20' : 'bg-black text-white hover:shadow-black/20'} rounded-full font-black text-lg md:text-xl hover:shadow-[0_0_30px] transition-all flex items-center justify-center gap-2`}>
                                 Getting Started <ArrowRight className="group-hover:translate-x-1 transition-transform" />
                             </button>
                         </SignUpButton>
-                        <button className={`px-10 py-5 font-bold text-xl border rounded-full backdrop-blur-md transition-colors ${isDark ? 'text-white/50 border-white/10 hover:bg-white/5 hover:text-white' : 'text-gray-500 border-black/10 hover:bg-black/5 hover:text-black'}`}>
-                            Live Demo
-                        </button>
                     </div>
                 </div>
 
                 {/* Features Section */}
-                <div className="mt-80 grid grid-cols-1 md:grid-cols-4 gap-12 w-full max-w-6xl px-12 pb-40">
+                <div className="mt-20 sm:mt-40 md:mt-80 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-12 w-full max-w-6xl px-4 md:px-12 pb-20 md:pb-40">
                     {[
                         { icon: Rocket, label: "Fast Setup", desc: "Configuration in under 1 minute." },
                         { icon: Users, label: "Team Sync", desc: "Real-time updates across all members." },
@@ -130,9 +124,9 @@ const LandingPage = () => {
             </main>
 
             {/* Professional Footer */}
-            <footer className={`relative z-10 border-t pt-20 pb-10 px-6 ${isDark ? 'border-white/10 bg-black/40 backdrop-blur-2xl text-white' : 'border-black/5 bg-white/80 backdrop-blur-2xl text-gray-900'}`}>
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-20 text-left">
-                    <div className="col-span-1 md:col-span-2">
+            <footer className={`relative z-10 border-t pt-16 md:pt-20 pb-10 px-6 ${isDark ? 'border-white/10 bg-black/40 backdrop-blur-2xl text-white' : 'border-black/5 bg-white/80 backdrop-blur-2xl text-gray-900'}`}>
+                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 md:mb-20 text-center md:text-left">
+                    <div className="col-span-1 md:col-span-2 flex flex-col items-center md:items-start">
                         <div className="flex items-center gap-3 mb-6">
                             <div className={`size-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-white text-black' : 'bg-black text-white'}`}>
                                 <Layout className="size-6" />
